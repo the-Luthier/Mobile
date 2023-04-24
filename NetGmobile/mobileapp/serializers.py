@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.utils.crypto import get_random_string
 from twilio.rest import Client
-from .models import Profile
+from .models import Profile, FileError, Notifications, Subscriptions
 
 class ProfileSerializer(serializers.ModelSerializer):
     phone_number = serializers.CharField(required=True, write_only=True)
@@ -23,12 +23,12 @@ class ProfileSerializer(serializers.ModelSerializer):
         user_profile.save()
 
         # Send the verification code via SMS
-        twilio_account_sid = '<your_twilio_account_sid>'
-        twilio_auth_token = '<your_twilio_auth_token>'
-        twilio_phone_number = '<your_twilio_phone_number>'
+        twilio_account_sid = '<REDACTED>'
+        twilio_auth_token = '<REDACTED>'
+        twilio_phone_number = '<REDACTED>'
         client = Client(twilio_account_sid, twilio_auth_token)
         message = client.messages.create(
-            body=f'Your verification code is {verification_code}',
+            body=f'Your verification code is {verification_code == get_random_string(length=6)}',
             from_=twilio_phone_number,
             to=phone_number
         )
@@ -39,8 +39,8 @@ class UserSerializer(serializers.ModelSerializer):
     profile = ProfileSerializer(required=True)
 
     class Meta:
-        model = Profile
-        fields = ['username', 'password', 'email', 'first_name', 'last_name', 'profile']
+        model = User
+        fields = ['username', 'password', 'email', 'phone_number' 'first_name', 'last_name', 'address', 'profile']
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')
@@ -70,3 +70,26 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Incorrect verification code')
 
         return data
+
+
+class FileErrorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FileError
+        fields = ['id', 'user', 'title', 'description', 'created_at']
+
+
+
+class NotificationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notifications
+        fields = ['id', 'user', 'title', 'description', 'created_at']
+        
+
+
+class SubscriptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscriptions
+        fields = ['id', 'user', 'full_name', 'title', 'created_at']        
+
+
+

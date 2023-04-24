@@ -1,37 +1,49 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login as django_login
 from .forms import UserCreationForm, VerifyForm, LoginForm, PasswordResetForm, UserInfoForm, PasswordChangeForm
 from .decorators import verification_required
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
-from .serializers import UserSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .serializers import UserSerializer, ProfileSerializer, FileErrorSerializer, NotificationsSerializer, SubscriptionsSerializer
 from . import verify
-from .models import User
+from .models import User, FileError, Notifications, Subscriptions
 
 # Create your views here.
 
-def login(request):
-    template_name = 'login.dart'    
+@api_view(['POST'])
+def login(request):      
     if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-          if User is not None:
-            verify.send(form.cleaned_data.get('phone'))
-            return redirect('verify_code') 
-          
-    else :
-     return render(request, 'login')
+        username = request.data.get('username')
+        password = request.data.get('password')
+        phone_number = request.data.get('phone')
+        
+        if not (username and password and phone_number):
+            return Response({'error': 'Missing required fields'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            verify.send(phone_number)
+            # Store user ID in the session or use a token-based authentication system (e.g., JWT)
+            request.session['user_id'] = user.id
+            return Response({'message': 'Verification code sent'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    return Response({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
 
 
 @login_required
 @verification_required
-def index(request):
-  template_name = 'homepage.dart'
+def index(request):  
   return render(request, 'homepage')
 
 
-def signup(request):
-    template_name = 'signup.dart'    
+def signup(request):       
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -42,24 +54,10 @@ def signup(request):
     else :
      return render(request, 'signup.dart')
     
-    
-    
-#def register(request):
-#    template_name = 'signup.dart'    
-#    if request.method == 'POST':
-#        form = UserCreationForm(request.POST)       
-#        if form.is_valid():                              
-#         if User is not None:
-#            form.save()
-#            verify.send(form.cleaned_data.get('phone'))
-#            return redirect('welcome.dart')
-#    else :
-#       return render(request, 'signup.dart')
-            
+               
         
 @login_required
-def verify_code(request):
-    template = 'verify_code.dart'
+def verify_code(request):    
     if request.method == 'POST':
         form = VerifyForm(request.POST)
         if form.is_valid():
@@ -74,8 +72,7 @@ def verify_code(request):
 
 
 @login_required
-def welcome(request):
-  template_name = 'welcome.dart'
+def welcome(request):  
   if User is not None:
     return redirect('user_info_update')
   else:
@@ -84,8 +81,7 @@ def welcome(request):
 
 
 @verification_required
-def forgot_password(request):
-    template_name = 'forgot_password.dart'    
+def forgot_password(request):       
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
         if form.is_valid():
@@ -99,8 +95,7 @@ def forgot_password(request):
 
 
 @verification_required
-def new_password(request):
-    template_name = 'new_password.dart'    
+def new_password(request):       
     if request.method == 'POST':
           if User is not None:
             return redirect('login')
@@ -108,28 +103,33 @@ def new_password(request):
       return render(request, 'new_password.dart')
   
   
-  
-@login_required 
-def user_profile(request):
-  template_name = 'user_profile.dart'    
-  return redirect('user_profile')
+      
         
-        
-@login_required
-def user_info(request):
-  template_name = 'user_info.dart'    
-  return redirect('user_info')  
+class UserDetailUpdateView(generics.RetrieveUpdateAPIView):
+  queryset = User.objects.all()
+  serializer_class = UserSerializer
+
+  def get_object(self):
+    return self.request.user
+
+  def update(self, request, *args, **kwargs):
+    instance = self.get_object()
+    form = UserInfoForm(request.POST)
+    if form.is_valid():
+      serializer = self.get_serializer(instance, data=request.data, partial=True)
+      serializer.is_valid(raise_exception=True)
+      self.perform_update(serializer)
+    return Response(serializer.data)
   
     
     
 @login_required   
-def user_info_update(request):
-    template_name = 'user_info_update.dart'    
+def user_info_update(request):     
     if request.method == 'POST':
         form = UserInfoForm(request.POST)
         if form.is_valid():
           if User is not None:
-            form.save()     #type: ignore
+            form.save()     
             return redirect('homepage.dart')
     else :
         return render(request, 'signup.dart', {'form': UserCreationForm()})
@@ -137,55 +137,82 @@ def user_info_update(request):
 
 
 @verification_required
-def change_password(request):
-  template_name = 'change_password.dart'
+def change_password(request):  
   if request.method == 'POST':
     form = PasswordChangeForm(request.POST)
     if form.is_valid():
       if User is not None:
         form.save() #type: ignore
         return redirect('login')
+      
+
+
+class FileErrorListCreateView(generics.ListCreateAPIView):
+    serializer_class = FileErrorSerializer
+
+    def get_queryset(self):
+        return FileError.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+
+
+class NotificationsListCreateView(generics.ListCreateAPIView):
+    serializer_class = NotificationsSerializer
+
+    def get_queryset(self):
+        return Notifications.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)    
+
+
+class SubscriptionsListCreateView(generics.ListCreateAPIView):
+    serializer_class = SubscriptionsSerializer
+
+    def get_queryset(self):
+        return Subscriptions.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
   
 
-def services(request):
-  template_name = 'services.dart'
+def services(request):  
   return render(request, 'services.dart')
   
   
   
 @login_required
-def special(request):
-    template_name = 'special.dart'
+def special(request):    
     return render(request, 'special.dart')
   
   
 @login_required
-def packages(request):
-    template_name = 'packages.dart'
+def packages(request):    
     return render(request, 'packages.dart')
   
   
 @login_required 
-def support(request):
-  template_name = 'support.dart'
+def support(request):  
   return render(request, 'support.dart')   
 
 
 @login_required
-def faq(request):
-  template_name = 'faq.dart'
+def faq(request):  
   return render(request, 'faq.dart')
 
 
 @login_required
-def contact_us(request):
-  template_name = 'contact_us.dart'
+def contact_us(request):  
   return render(request, 'contact_us.dart')
 
 
 @login_required
-def development(request):
-  template_name = 'development.dart'
+def development(request):  
   return render(request, 'development.dart')
 
 

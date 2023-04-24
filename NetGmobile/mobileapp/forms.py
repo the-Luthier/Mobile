@@ -5,20 +5,20 @@ from .models import User
 
 
 class LoginForm(AuthenticationForm):
-    phone = forms.CharField(max_length=20, required=True, help_text='Phone number')
+    phone_number = forms.CharField(max_length=20, required=True, help_text='Phone number')
     
     class Meta:
         model = User
-        fields = ('phone', 'password1')
+        fields = ('phone_number', 'password')
 
 
 
 class UserCreationForm(BaseUserCreationForm):
-    phone = forms.CharField(max_length=20, required=True, help_text='Phone number')
+    phone_number = forms.CharField(max_length=20, required=True, help_text='Phone number')
 
     class Meta:
         model = User
-        fields = ('username', 'phone', 'password1', 'password2')
+        fields = ('username', 'phone_number', 'password', 'password_again')
 
 
 
@@ -28,11 +28,11 @@ class VerifyForm(forms.Form):
     
     
 class PasswordResetForm(BasePasswordResetForm):
-    phone = forms.CharField(max_length=20, required=True, help_text='Phone number')
+    phone_number = forms.CharField(max_length=20, required=True, help_text='Phone number')
     
     class Meta:
         model = User
-        fields = ('phone')
+        fields = ('phone_number')
 
 
 class PasswordChangeForm(forms.Form):
@@ -40,6 +40,8 @@ class PasswordChangeForm(forms.Form):
     new_password = forms.CharField(max_length=20, required=True, help_text='New password')
     new_password2 = forms.CharField(max_length=20, required=True, help_text='New password again')
     
+    new_password == new_password2
+
     class Meta:
         model = User
         fields = ('old_password', 'new_password', 'new_password2')
@@ -54,4 +56,4 @@ class UserInfoForm(forms.Form):
     
     class Meta:
         model = User
-        fields = ('username', 'phone', 'email', 'adress')
+        fields = ('username', 'phone_number', 'email', 'adress', 'address', 'first_name', 'last_name',)
