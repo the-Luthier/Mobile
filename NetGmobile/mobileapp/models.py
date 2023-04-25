@@ -9,7 +9,7 @@ class Profile(models.Model):
     full_name = models.CharField(max_length=200,required=True, blank=False)
     phone_number = models.CharField(max_length=15,required=True, blank=False)
     verification_code = models.CharField(max_length=6, blank=False)
-    is_verified = models.BooleanField(default=False, required=True)
+    is_verified = models.BooleanField(default=False, required=True) 
 
     def __str__(self):
             return f'{self.user.username}\'s profile'    

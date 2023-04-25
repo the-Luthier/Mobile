@@ -2,12 +2,10 @@ from django.urls import path, re_path
 from . import views
 from django.contrib.auth import views as auth_views
 
-#Create Mobile App URL's here ....
 
 urlpatterns = [ # type: ignore
     path('', views.index.as_view(template_name='homepage.dart')),       
-    path('login/', views.login.as_view(template_name='login.dart')),      
-    #path('register/', views.register, name='signup'),      
+    path('login/', views.login.as_view(template_name='login.dart')),         
     path('signup/', views.signup.as_view(name='signup.dart'))         
     path('verify_code/', views.verify_code.as_view(template_name='verify_code.dart')),      
     path('welcome/', views.welcome.as_view(template_name='welcome.dart')),       
