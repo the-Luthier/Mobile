@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'phone_verify',
     'mobileapp',
-    'mobileapp.apps.MobileappConfig',
+    'apps.MobileappConfig',
     
 ]
 
