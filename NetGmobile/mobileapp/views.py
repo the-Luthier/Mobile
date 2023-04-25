@@ -108,48 +108,35 @@ def new_password(request):
         
 class UserDetailUpdateView(generics.RetrieveUpdateAPIView):
   queryset = User.objects.all()
-  serializer_class = UserSerializer
+  serializer = UserSerializer
 
   def get_object(self):
     return self.request.user
 
   def update(self, request, *args, **kwargs):
     instance = self.get_object()
-    form = UserInfoForm(request.POST)
-    if form.is_valid():      
-      serializer = UserSerializer.self.get_serializer(instance, data=request.data, partial=True)
-      serializer.is_valid(raise_exception=True)
+    serializer = UserSerializer(request.POST)
+    if serializer.is_valid():     
+      serializer.is_valid(raise_exception=False) 
+      self.get_serializer(instance, data=request.data, partial=True)      
       self.perform_update(serializer)
     return Response(UserSerializer.data)
   
     
-    
-@login_required   
-def user_info_update(request):     
-    if request.method == 'POST':
-        form = UserInfoForm(request.POST)
-        if form.is_valid():
-          if User is not None:
-            form.save()     
-            return redirect('homepage.dart')
-    else :
-        return render(request, 'signup.dart', {'form': UserCreationForm()})
-    return render(request, 'user_profile.dart')
-
 
 @verification_required
 @login_required
 def change_password(request):  
     if request.method == 'POST':
         serializer = UserSerializer(data=request.POST)
-        if serializer.is_valid():
+        if serializer.is_valid():            
             user = authenticate(request, username=request.user.username, password=serializer.validated_data['password1'])
             if user is not None:
                 user.set_password(serializer.validated_data['password1'])
                 user.save()
                 login(request, user)
                 messages.success(request, 'Your password was successfully updated!')
-                return redirect('profile')
+                
             else:
                 messages.error(request, 'Invalid current password')
         else:

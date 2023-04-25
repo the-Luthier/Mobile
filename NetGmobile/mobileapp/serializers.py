@@ -1,3 +1,5 @@
+import os
+
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, get_user_model
@@ -26,9 +28,9 @@ class ProfileSerializer(serializers.ModelSerializer):
         user_profile.save()
 
         # Send the verification code via SMS
-        twilio_account_sid = '<REDACTED>'
-        twilio_auth_token = '<REDACTED>'
-        twilio_phone_number = '<REDACTED>'
+        twilio_account_sid = os.getenv("TWILIO_ACCOUNT_SID")
+        twilio_auth_token = os.getenv("TWILIO_AUTH_TOKEN")
+        twilio_phone_number = os.getenv("TWILIO_PHONE_NUMBER")
         client = Client(twilio_account_sid, twilio_auth_token)
         message = client.messages.create(
             body=f'Your verification code is {verification_code == get_random_string(length=6)}',
@@ -43,7 +45,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'email', 'phone_number' 'first_name', 'last_name', 'address', 'profile']
+        fields = ['username', 'password', 'email', 'phone_number', 'first_name', 'last_name', 'address', 'profile']
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')
