@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as django_login
 from .forms import UserCreationForm, VerifyForm, LoginForm, PasswordResetForm, UserInfoForm, PasswordChangeForm
@@ -49,7 +50,7 @@ def signup(request):
         if form.is_valid():
           if User is not None:
             form.save()
-            verify.send(form.cleaned_data.get('phone'))
+            verify.send(form.cleaned_data.get('phone_number'))
             return redirect('verify_code')
     else :
      return render(request, 'signup.dart')
@@ -137,14 +138,26 @@ def user_info_update(request):
 
 
 @verification_required
+@login_required
 def change_password(request):  
-  if request.method == 'POST':
-    form = PasswordChangeForm(request.POST)
-    if form.is_valid():
-      if User is not None:
-        form.save() #type: ignore
-        return redirect('login')
-      
+    if request.method == 'POST':
+        serializer = UserSerializer(data=request.POST)
+        if serializer.is_valid():
+            user = authenticate(request, username=request.user.username, password=serializer.validated_data['password1'])
+            if user is not None:
+                user.set_password(serializer.validated_data['password1'])
+                user.save()
+                login(request, user)
+                messages.success(request, 'Your password was successfully updated!')
+                return redirect('profile')
+            else:
+                messages.error(request, 'Invalid current password')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        serializer = UserSerializer()
+
+    return render(request, 'change_password', {'serializer': serializer})
 
 
 class FileErrorListCreateView(generics.ListCreateAPIView):

@@ -1,9 +1,12 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.utils.crypto import get_random_string
 from twilio.rest import Client
 from .models import Profile, FileError, Notifications, Subscriptions
+from .forms import PasswordChangeForm, UserInfoForm, PasswordResetForm, LoginForm, VerifyForm, UserCreationForm
+from django.contrib.auth.hashers import make_password
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     phone_number = serializers.CharField(required=True, write_only=True)
@@ -71,6 +74,59 @@ class UserSerializer(serializers.ModelSerializer):
 
         return data
 
+
+
+class PasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(max_length=128, write_only=True)
+    new_password1 = serializers.CharField(max_length=128, write_only=True)
+    new_password2 = serializers.CharField(max_length=128, write_only=True)
+
+    def validate(self, attrs):
+        old_password = attrs.get('old_password')
+        new_password1 = attrs.get('new_password1')
+        new_password2 = attrs.get('new_password2')
+        verification_code = attrs.get('verification_code')
+
+
+        if not old_password:
+            raise serializers.ValidationError('Current password is required')
+        if not new_password1:
+            raise serializers.ValidationError('New password is required')
+        if not new_password2:
+            raise serializers.ValidationError('New password confirmation is required')
+        if new_password1 != new_password2:
+            raise serializers.ValidationError('New passwords do not match')
+
+        user = self.context.get('user')
+        if not authenticate(username=user.username, password=old_password):
+            raise serializers.ValidationError('Current password is incorrect')
+
+        try:
+            profile = Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            raise serializers.ValidationError('Profile not found')
+
+        if verification_code != profile.verification_code:
+            raise serializers.ValidationError('Verification code is incorrect')
+
+        return attrs
+
+    def save(self, **kwargs):
+        user = self.context.get('user')
+        password = make_password(self.validated_data['new_password1'])
+        user.set_password(password)
+        user.save()
+
+        try:
+            profile = Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            raise serializers.ValidationError('Profile not found')
+
+        profile.verification_code = None
+        profile.save()
+
+        
+        
 
 class FileErrorSerializer(serializers.ModelSerializer):
     class Meta:
