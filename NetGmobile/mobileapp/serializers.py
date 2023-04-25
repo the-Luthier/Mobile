@@ -98,7 +98,7 @@ class PasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError('New passwords do not match')
 
         user = self.context.get('user')
-        if not authenticate(username=user.username, password=old_password):
+        if not authenticate(username=user.username , password=old_password):
             raise serializers.ValidationError('Current password is incorrect')
 
         try:
@@ -122,7 +122,7 @@ class PasswordSerializer(serializers.Serializer):
         except Profile.DoesNotExist:
             raise serializers.ValidationError('Profile not found')
 
-        profile.verification_code = None
+        profile.verification_code = get_random_string(length=6)
         profile.save()
 
         

@@ -116,11 +116,11 @@ class UserDetailUpdateView(generics.RetrieveUpdateAPIView):
   def update(self, request, *args, **kwargs):
     instance = self.get_object()
     form = UserInfoForm(request.POST)
-    if form.is_valid():
-      serializer = self.get_serializer(instance, data=request.data, partial=True)
+    if form.is_valid():      
+      serializer = UserSerializer.self.get_serializer(instance, data=request.data, partial=True)
       serializer.is_valid(raise_exception=True)
       self.perform_update(serializer)
-    return Response(serializer.data)
+    return Response(UserSerializer.data)
   
     
     

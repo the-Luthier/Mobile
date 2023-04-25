@@ -40,8 +40,7 @@ class PasswordChangeForm(forms.Form):
     new_password = forms.CharField(max_length=20, required=True, help_text='New password')
     new_password2 = forms.CharField(max_length=20, required=True, help_text='New password again')
     
-    new_password == new_password2
-
+    
     class Meta:
         model = User
         fields = ('old_password', 'new_password', 'new_password2')

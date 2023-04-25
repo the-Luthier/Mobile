@@ -5,11 +5,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class Profile(models.Model):
-    user = models.OneToOneField(User,required=True, on_delete=models.CASCADE)
-    full_name = models.CharField(max_length=200,required=True, blank=False)
-    phone_number = models.CharField(max_length=15,required=True, blank=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=200, blank=False)
+    phone_number = models.CharField(max_length=15, blank=False)
     verification_code = models.CharField(max_length=6, blank=False)
-    is_verified = models.BooleanField(default=False, required=True) 
+    is_verified = models.BooleanField(default=False, blank=False) 
 
     def __str__(self):
             return f'{self.user.username}\'s profile'    
