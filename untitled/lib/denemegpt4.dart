@@ -27,14 +27,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'NetGalaksi',
-        theme: ThemeData(
-          primarySwatch: Colors.pink,
-        ),
-        home: const IntroPage(),
-        routes: {
-          '/home': (BuildContext context) => const MainPage(),
-        });
+      title: 'NetGalaksi',
+      theme: ThemeData(
+        primarySwatch: Colors.pink,
+      ),
+      home: const MainPage(),
+    );
   }
 }
 
