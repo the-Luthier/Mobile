@@ -6,5 +6,5 @@ def send_email(subject, message, from_email, recipient_list):
         message,
         from_email,
         recipient_list,
-        fail_silently=False,
+        fail_silently=True,
     )
