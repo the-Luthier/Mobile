@@ -25,9 +25,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Your App Name',
+      title: 'NetGalaksi',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
       ),
       home: const IntroPage(),
       routes: {

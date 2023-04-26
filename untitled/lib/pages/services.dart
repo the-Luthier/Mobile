@@ -13,7 +13,7 @@ class SevenButtonsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Seven Buttons Page'),
+        title: const Text('Hizmetlerimiz'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -41,51 +41,122 @@ class SevenButtonsPage extends StatelessWidget {
               mainAxisSpacing: 16.0,
               crossAxisSpacing: 16.0,
               children: [
-                _buildButton(context, 'Fiber altyapısı kullanıyor musunuz?',
-                    '/Evet, NetGalaksi altyapısıyla sunulan Fiber İnternet, üst düzey bağlantı hızını, güvenliğini ve kalitesini kullanıcılarımızla buluşturuyor.'),
-                _buildButton(
-                    context,
-                    'Başka bir operatörden hizmet alıyorum fakat taahhüt süresi dolmadı. Cayma bedelini karşılar mısınız?',
-                    '/NetGalaksi cayma bedelinizi karşılamamaktadır.NetGalaksiye üye olmanız halinde mevcut hizmet aldığınız operaörden hizmet aktarımı yapılıyor.Kurulumdan kısa bir süre sonra NetGalaksi internet bağlantısını kullanabilirsiniz.'),
-                _buildButton(
-                    context,
-                    'Ev telefonu olmadan NetGalaksi hizmeti alabilir miyim?',
-                    '/Evet, ev telefonunuz olmasa da NetGalaksi hizmetinden faydalanabilirsiniz.'),
-                _buildButton(
-                    context,
-                    'NetGalaksi tarifelerinden kimler yararlanabilir?',
-                    '/İsteyen herkes NetGalaksi tarife ve paketlerinden faydalanabilir.'),
-                _buildButton(
-                    context,
-                    'İnternet kurulumu ne kadar sürede gerçekleşir?',
-                    '/NetGalaksi kurulumu, altyapıya göre değişkenlik göstermekle birlikte, ortalama 3-7 gündür.'),
-                _buildButton(context, 'Statik IP hizmeti alabilir miyim?',
-                    '/İstediğiniz zaman 0850 303 9146 numaralı müşteri hizmetlerimizden, internet hattınıza Statik IP tanımlanmasını talep edebilirsiniz.Statik IP ücreti aylık 25 TLdir.'),
-                _buildButton(context, 'Müşteri bilgilerim paylaşılacak mı?',
-                    '/NetGalaksi, paylaşım izni vermediğiniz sürece bilgileriniz paylaşılmayacaktır.'),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width *
+                      0.75, // Adjust this value to control the width (0.9 means 90% of the screen width)
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/infrastructure');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors
+                          .pink, // Change this to set the background color
+                      foregroundColor:
+                          Colors.white, // Change this to set the text color
+                    ),
+                    child: const Text('Altyapı Sorgulama'),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width *
+                      0.75, // Adjust this value to control the width (0.9 means 90% of the screen width)
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/packages');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors
+                          .pink, // Change this to set the background color
+                      foregroundColor:
+                          Colors.white, // Change this to set the text color
+                    ),
+                    child: const Text('Kampanyalarımız'),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width *
+                      0.75, // Adjust this value to control the width (0.9 means 90% of the screen width)
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/development');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors
+                          .pink, // Change this to set the background color
+                      foregroundColor:
+                          Colors.white, // Change this to set the text color
+                    ),
+                    child: const Text('Superbox'),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width *
+                      0.75, // Adjust this value to control the width (0.9 means 90% of the screen width)
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/fiber_internet');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors
+                          .pink, // Change this to set the background color
+                      foregroundColor:
+                          Colors.white, // Change this to set the text color
+                    ),
+                    child: const Text('Fiber İnternet'),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width *
+                      0.75, // Adjust this value to control the width (0.9 means 90% of the screen width)
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/support');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors
+                          .pink, // Change this to set the background color
+                      foregroundColor:
+                          Colors.white, // Change this to set the text color
+                    ),
+                    child: const Text('İnternet Servisi'),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width *
+                      0.75, // Adjust this value to control the width (0.9 means 90% of the screen width)
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/modem');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors
+                          .pink, // Change this to set the background color
+                      foregroundColor:
+                          Colors.white, // Change this to set the text color
+                    ),
+                    child: const Text('Modem'),
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width *
+                      0.75, // Adjust this value to control the width (0.9 means 90% of the screen width)
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/contact_us');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors
+                          .pink, // Change this to set the background color
+                      foregroundColor:
+                          Colors.white, // Change this to set the text color
+                    ),
+                    child: const Text('7/24 Çağrı Merkezi'),
+                  ),
+                ),
               ],
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildButton(BuildContext context, String title, String route) {
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, route);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: Colors.pink,
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          title,
-          style: const TextStyle(color: Colors.white, fontSize: 18.0),
-        ),
       ),
     );
   }

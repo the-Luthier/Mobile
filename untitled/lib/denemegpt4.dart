@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: BoxDecoration(color: Colors.pink),
               child: Text('NetGalaksi',
                   style: TextStyle(color: Colors.white, fontSize: 24)),
             ),

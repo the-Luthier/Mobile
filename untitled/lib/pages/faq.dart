@@ -28,19 +28,41 @@ class FaqPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16.0),
-            const AccordionWidget(title: "Accordion 1", content: "Content 1"),
+            const AccordionWidget(
+                title: 'Fiber altyapısı kullanıyor musunuz?',
+                content:
+                    '/Evet, NetGalaksi altyapısıyla sunulan Fiber İnternet, üst düzey bağlantı hızını, güvenliğini ve kalitesini kullanıcılarımızla buluşturuyor.'),
             const SizedBox(height: 16.0),
-            const AccordionWidget(title: "Accordion 2", content: "Content 2"),
+            const AccordionWidget(
+                title:
+                    "'Başka bir operatörden hizmet alıyorum fakat taahhüt süresi dolmadı. Cayma bedelini karşılar mısınız?",
+                content:
+                    "/NetGalaksi cayma bedelinizi karşılamamaktadır.NetGalaksiye üye olmanız halinde mevcut hizmet aldığınız operaörden hizmet aktarımı yapılıyor.Kurulumdan kısa bir süre sonra NetGalaksi internet bağlantısını kullanabilirsiniz."),
             const SizedBox(height: 16.0),
-            const AccordionWidget(title: "Accordion 3", content: "Content 3"),
+            const AccordionWidget(
+                title: "Ev telefonu olmadan NetGalaksi hizmeti alabilir miyim?",
+                content:
+                    "/Evet, ev telefonunuz olmasa da NetGalaksi hizmetinden faydalanabilirsiniz."),
             const SizedBox(height: 16.0),
-            const AccordionWidget(title: "Accordion 4", content: "Content 4"),
+            const AccordionWidget(
+                title: "NetGalaksi tarifelerinden kimler yararlanabilir?",
+                content:
+                    "/İsteyen herkes NetGalaksi tarife ve paketlerinden faydalanabilir."),
             const SizedBox(height: 16.0),
-            const AccordionWidget(title: "Accordion 5", content: "Content 5"),
+            const AccordionWidget(
+                title: "İnternet kurulumu ne kadar sürede gerçekleşir?",
+                content:
+                    "/NetGalaksi kurulumu, altyapıya göre değişkenlik göstermekle birlikte, ortalama 3-7 gündür."),
             const SizedBox(height: 16.0),
-            const AccordionWidget(title: "Accordion 6", content: "Content 6"),
+            const AccordionWidget(
+                title: "Statik IP hizmeti alabilir miyim?",
+                content:
+                    "/İstediğiniz zaman 0850 303 9146 numaralı müşteri hizmetlerimizden, internet hattınıza Statik IP tanımlanmasını talep edebilirsiniz.Statik IP ücreti aylık 25 TLdir."),
             const SizedBox(height: 16.0),
-            const AccordionWidget(title: "Accordion 7", content: "Content 7"),
+            const AccordionWidget(
+                title: "Müşteri bilgilerim paylaşılacak mı?",
+                content:
+                    "/NetGalaksi, paylaşım izni vermediğiniz sürece bilgileriniz paylaşılmayacaktır."),
           ],
         ),
       ),
