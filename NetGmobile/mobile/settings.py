@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'phone_verify',
     'mobileapp',
-    'apps.MobileappConfig',
+    'mobileapp.apps.MobileappConfig',
     
 ]
 
@@ -141,4 +141,4 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = '/login/'
 
-AUTH_USER_MODEL = 'mobileapp.User'
+AUTH_USER_MODEL = 'mobileapp.Profile'
