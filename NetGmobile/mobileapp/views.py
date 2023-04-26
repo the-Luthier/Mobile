@@ -38,12 +38,14 @@ def login(request):
 
 
 
+@api_view(['GET'])
 @login_required
 @verification_required
 def index(request):  
   return render(request, 'homepage')
 
 
+@api_view(['POST'])
 def signup(request):       
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -56,7 +58,7 @@ def signup(request):
      return render(request, 'signup.dart')
     
                
-        
+@api_view(['POST'])        
 @login_required
 def verify_code(request):    
     if request.method == 'POST':
@@ -69,18 +71,20 @@ def verify_code(request):
                 return redirect('index')
     else:
         form = VerifyForm()
-    return render(request, 'signup.dart')
+    return redirect(request, 'verify_code')
 
 
+@api_view(['GET'])
 @login_required
 def welcome(request):  
   if User is not None:
     return redirect('user_info_update')
   else:
     return redirect('signup')
+  
 
 
-
+@api_view(['POST'])
 @verification_required
 def forgot_password(request):       
     if request.method == 'POST':
@@ -91,10 +95,11 @@ def forgot_password(request):
             verify.send(form.cleaned_data.get('phone'))
             return redirect('new_password')
     else :
-      return render(request, 'forgot_password.dart')
+      return render(request, 'forgot_password')
+    
 
 
-
+@api_view(['POST'])
 @verification_required
 def new_password(request):       
     if request.method == 'POST':
@@ -122,8 +127,9 @@ class UserDetailUpdateView(generics.RetrieveUpdateAPIView):
       self.perform_update(serializer)
     return Response(UserSerializer.data)
   
+  
     
-
+@api_view(['POST'])
 @verification_required
 @login_required
 def change_password(request):  
