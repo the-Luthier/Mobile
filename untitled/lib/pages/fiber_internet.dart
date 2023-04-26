@@ -22,15 +22,23 @@ class FiberInternetPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                buildContainer(context, 'image1.png'),
-                buildContainer(context, 'image2.png'),
+                buildContainer(context, 'image1.png', () {
+                  Navigator.pushNamed(context, '/page1');
+                }),
+                buildContainer(context, 'image2.png', () {
+                  Navigator.pushNamed(context, '/page2');
+                }),
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                buildContainer(context, 'image3.png'),
-                buildContainer(context, 'image4.png'),
+                buildContainer(context, 'image3.png', () {
+                  Navigator.pushNamed(context, '/page3');
+                }),
+                buildContainer(context, 'image4.png', () {
+                  Navigator.pushNamed(context, '/page4');
+                }),
               ],
             ),
           ],
@@ -39,17 +47,35 @@ class FiberInternetPage extends StatelessWidget {
     );
   }
 
-  Widget buildContainer(BuildContext context, String imageName) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.4,
-      height: MediaQuery.of(context).size.height * 0.25,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/$imageName'),
-          fit: BoxFit.cover,
+  Widget buildContainer(
+      BuildContext context, String imageName, VoidCallback onTap) {
+    return Stack(
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.height * 0.25,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/$imageName'),
+              fit: BoxFit.cover,
+            ),
+            borderRadius: BorderRadius.circular(15),
+          ),
         ),
-        borderRadius: BorderRadius.circular(15),
-      ),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.center,
+            child: ElevatedButton(
+              onPressed: onTap,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.pink,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Go to Page'),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
