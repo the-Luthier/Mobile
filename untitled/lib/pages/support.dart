@@ -12,7 +12,7 @@ class SupportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Page'),
+        title: const Text('Destek'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
