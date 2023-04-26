@@ -14,6 +14,8 @@ import 'pages/special.dart';
 import 'pages/error.dart';
 import 'pages/services.dart';
 import 'pages/contact_us.dart';
+import 'pages/intro.dart';
+//import 'package:your_app_name/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,12 +27,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'NetGalaksi',
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-      ),
-      home: const MainPage(),
-    );
+        title: 'NetGalaksi',
+        theme: ThemeData(
+          primarySwatch: Colors.pink,
+        ),
+        home: const IntroPage(),
+        routes: {
+          '/home': (BuildContext context) => const MainPage(),
+        });
   }
 }
 
