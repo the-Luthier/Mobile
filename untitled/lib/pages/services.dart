@@ -46,7 +46,7 @@ class SevenButtonsPage extends StatelessWidget {
                       0.75, // Adjust this value to control the width (0.9 means 90% of the screen width)
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/infrastructure');
+                      Navigator.pushNamed(context, '/development');
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors
