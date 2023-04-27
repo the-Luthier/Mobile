@@ -1,14 +1,14 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm  as BaseUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm as BasePasswordResetForm
-from .models import User
+from .models import Profile
 
 
 class LoginForm(AuthenticationForm):
     phone_number = forms.CharField(max_length=20, required=True, help_text='Phone number')
     
     class Meta:
-        model = User
+        model = Profile
         fields = ('phone_number', 'password')
 
 
@@ -17,7 +17,7 @@ class UserCreationForm(BaseUserCreationForm):
     phone_number = forms.CharField(max_length=20, required=True, help_text='Phone number')
 
     class Meta:
-        model = User
+        model = Profile
         fields = ('username', 'phone_number', 'password', 'password_again')
 
 
@@ -31,18 +31,18 @@ class PasswordResetForm(BasePasswordResetForm):
     phone_number = forms.CharField(max_length=20, required=True, help_text='Phone number')
     
     class Meta:
-        model = User
+        model = Profile
         fields = ('phone_number')
 
 
 class PasswordChangeForm(forms.Form):
     password = forms.CharField(max_length=20, required=True, help_text='Old password')
-    new_password = forms.CharField(max_length=20, required=True, help_text='New password')
+    new_password1 = forms.CharField(max_length=20, required=True, help_text='New password')
     new_password2 = forms.CharField(max_length=20, required=True, help_text='New password again')
     
     
     class Meta:
-        model = User
+        model = Profile
         fields = ('password', 'new_password1', 'new_password2')
         
         
@@ -54,5 +54,5 @@ class UserInfoForm(forms.Form):
     adress = forms.CharField(max_length=250, required=True, help_text='Adress')
     
     class Meta:
-        model = User
+        model = Profile
         fields = ('username', 'phone_number', 'email', 'adress', 'address', 'first_name', 'last_name',)
