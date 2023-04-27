@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/widgets.dart';
-
+import 'pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled/pages/notifications.dart';
 import 'pages/drawer.dart';
@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'NetGalaksi',
       theme: ThemeData(
         primarySwatch: Colors.pink,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const IntroPage(),
       routes: {

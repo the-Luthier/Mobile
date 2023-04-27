@@ -1,9 +1,10 @@
 // ignore_for_file: unused_import, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'drawer.dart'; // Import the MyDrawer widget from the separate file
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +12,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('NetGalaksi'),
       ),
+      drawer: MyDrawer(scaffoldKey: key as GlobalKey<ScaffoldState>),
       body: Column(
         children: [
           Expanded(
