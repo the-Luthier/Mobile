@@ -25,7 +25,7 @@ class FileError(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.MultipleObjectsReturned('title', 'description', 'created_at', 'user',)
     
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -44,7 +44,7 @@ class Notifications(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.MultipleObjectsReturned('title', 'description',)
 
 
 
@@ -55,4 +55,4 @@ class Subscriptions(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.MultipleObjectsReturned('title', 'description', 'created_at', 'user',)

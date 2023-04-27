@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login as django_login
-from .forms import UserCreationForm, VerifyForm, LoginForm, PasswordResetForm, UserInfoForm, PasswordChangeForm
+from .forms import SignUpForm, VerifyForm, LoginForm, PasswordResetForm, UserInfoForm, PasswordChangeForm
 from .decorators import verification_required
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
@@ -51,7 +51,7 @@ def index(request):
 @api_view(['POST'])
 def signup(request):       
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
           if User is not None:
             form.save()

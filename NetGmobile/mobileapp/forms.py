@@ -1,5 +1,17 @@
+import os
+import sys
+
+project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, project_dir)
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'NetGmobile.settings')
+
+import django
+django.setup()
+
+
 from django import forms
-from django.contrib.auth.forms import UserCreationForm  as BaseUserCreationForm
+from django.contrib.auth.forms import UserCreationForm 
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm as BasePasswordResetForm
 from .models import Profile
 from django.contrib.auth import authenticate, get_user_model
@@ -16,7 +28,7 @@ class LoginForm(AuthenticationForm):
 
 
 
-class UserCreationForm(BaseUserCreationForm):
+class SignUpForm(UserCreationForm):
     phone_number = forms.CharField(max_length=20, required=True, help_text='Phone number')
     username = forms.CharField(max_length=11, required=True, help_text='Username')
     password = forms.CharField(max_length=20, required=True, help_text='Password')
