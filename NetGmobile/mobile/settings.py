@@ -50,8 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'rest_framework',
     'corsheaders',
-    'phone_verify',
-    'mobileapp',
+    'phone_verify',    
     'mobileapp.apps.MobileappConfig',
     
 ]

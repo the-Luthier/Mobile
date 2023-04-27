@@ -8,9 +8,11 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import UserSerializer, ProfileSerializer, FileErrorSerializer, NotificationsSerializer, SubscriptionsSerializer
+from .serializers import UserSerializer, ProfileSerializer, FileErrorSerializer, NotificationsSerializer, SubscriptionsSerializer, PasswordSerializer
 from . import verify
-from .models import User, FileError, Notifications, Subscriptions
+from .models import User, FileError, Notifications, Subscriptions, Profile
+
+
 
 # Create your views here.
 
@@ -19,7 +21,7 @@ def login(request):
     if request.method == 'POST':
         username = request.data.get('username')
         password = request.data.get('password')
-        phone_number = request.data.get('phone')
+        phone_number = request.data.get('phone_number')
         
         if not (username and password and phone_number):
             return Response({'error': 'Missing required fields'}, status=status.HTTP_400_BAD_REQUEST)
@@ -29,7 +31,7 @@ def login(request):
         if user is not None:
             verify.send(phone_number)
             # Store user ID in the session or use a token-based authentication system (e.g., JWT)
-            request.session['user_id'] = user.id
+            request.session['user_id'] = Profile.id
             return Response({'message': 'Verification code sent'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -111,9 +113,9 @@ def new_password(request):
   
       
         
-class UserDetailUpdateView(generics.RetrieveUpdateAPIView):
-  queryset = User.objects.all()
-  serializer = UserSerializer
+class UserDetailUpdateView(generics.RetrieveUpdateAPIView):  
+  queryset = Profile.objects.all()
+  serializer = ProfileSerializer
 
   def get_object(self):
     return self.request.user
@@ -134,11 +136,11 @@ class UserDetailUpdateView(generics.RetrieveUpdateAPIView):
 @login_required
 def change_password(request):  
     if request.method == 'POST':
-        serializer = UserSerializer(data=request.POST)
+        serializer = PasswordSerializer(data=request.POST)
         if serializer.is_valid():            
-            user = authenticate(request, username=request.user.username, password=serializer.validated_data['password1'])
+            user = authenticate(request, username=request.user.username, password=serializer.validated_data.get('password1'))
             if user is not None:
-                user.set_password(serializer.validated_data['password1'])
+                user.set_password(serializer.validated_data.get('password1'))
                 user.save()
                 login(request, user)
                 messages.success(request, 'Your password was successfully updated!')
