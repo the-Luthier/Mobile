@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 
 import 'package:flutter/material.dart';
 import 'package:untitled/pages/notifications.dart';
-import 'denemegpt4.dart';
+import 'pages/drawer.dart';
 import 'pages/intro.dart';
 import 'pages/error.dart';
 import 'pages/faq.dart';

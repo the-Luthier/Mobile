@@ -1,18 +1,17 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
-import 'pages/faq.dart';
-import 'pages/notifications.dart';
-import 'pages/user_info.dart';
-import 'pages/packages.dart';
-import 'pages/support.dart';
-import 'pages/special.dart';
-import 'pages/error.dart';
-import 'pages/services.dart';
-import 'pages/contact_us.dart';
-import 'models/model_subscription.dart';
-import 'pages/development.dart';
-import 'pages/subscriptions.dart';
+import 'faq.dart';
+import 'notifications.dart';
+import 'user_info.dart';
+import 'packages.dart';
+import 'support.dart';
+import 'special.dart';
+import 'error.dart';
+import 'services.dart';
+import 'contact_us.dart';
+import 'development.dart';
+import 'subscriptions.dart';
 
 class MyDrawer extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
