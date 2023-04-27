@@ -49,7 +49,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')
-        user = Profile.objects.create_user(**validated_data)  # type: ignore
+        user = user.objects.create_user(**validated_data)  
 
         # Create a Profile instance for the user and save the phone number
         Profile.objects.create(user=user, phone_number=profile_data['phone_number'])
@@ -148,6 +148,10 @@ class SubscriptionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscriptions
         fields = ['id', 'user', 'full_name', 'title', 'created_at']        
+
+
+
+
 
 
 
