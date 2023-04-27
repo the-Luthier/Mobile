@@ -138,7 +138,7 @@ def change_password(request):
     if request.method == 'POST':
         serializer = PasswordSerializer(data=request.POST)
         if serializer.is_valid():            
-            user = authenticate(request, username=request.user.username, password=serializer.validated_data.get('password1'))
+            user = authenticate(request, username=Profile.full_name, password=serializer.validated_data.get('password1'))
             if user is not None:
                 user.set_password(serializer.validated_data.get('password1'))
                 user.save()
