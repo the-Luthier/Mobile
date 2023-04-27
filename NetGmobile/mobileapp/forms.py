@@ -2,28 +2,38 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm  as BaseUserCreationForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm as BasePasswordResetForm
 from .models import Profile
+from django.contrib.auth import authenticate, get_user_model
+from django.contrib.auth.models import AbstractUser
+
 
 
 class LoginForm(AuthenticationForm):
     phone_number = forms.CharField(max_length=20, required=True, help_text='Phone number')
     
     class Meta:
-        model = Profile
+        model = get_user_model()
         fields = ('phone_number', 'password')
 
 
 
 class UserCreationForm(BaseUserCreationForm):
     phone_number = forms.CharField(max_length=20, required=True, help_text='Phone number')
+    username = forms.CharField(max_length=11, required=True, help_text='Username')
+    password = forms.CharField(max_length=20, required=True, help_text='Password')
+    password_again = forms.CharField(max_length=20, required=True, help_text='Password again')
 
     class Meta:
-        model = Profile
+        model = get_user_model()
         fields = ('username', 'phone_number', 'password', 'password_again')
 
 
 
 class VerifyForm(forms.Form):
     code = forms.CharField(max_length=6, required=True, help_text='Enter code')
+
+    class Meta:
+        model = get_user_model()
+        fields = ('code',)
     
     
     
@@ -31,8 +41,9 @@ class PasswordResetForm(BasePasswordResetForm):
     phone_number = forms.CharField(max_length=20, required=True, help_text='Phone number')
     
     class Meta:
-        model = Profile
+        model = get_user_model()
         fields = ('phone_number')
+
 
 
 class PasswordChangeForm(forms.Form):
@@ -42,17 +53,17 @@ class PasswordChangeForm(forms.Form):
     
     
     class Meta:
-        model = Profile
+        model = get_user_model()
         fields = ('password', 'new_password1', 'new_password2')
         
         
         
 class UserInfoForm(forms.Form):
-    user_name = forms.CharField(max_length=11, unique=True, required=True, help_text='Username') #type: ignore
-    phone = forms.CharField('+90',min_length=10, max_length=10, unique=True, required=True, help_text='5XXXXXXXX')  # type: ignore
+    user_name = forms.CharField(max_length=11, required=True, help_text='Username') 
+    phone = forms.CharField(min_length=10, required=True, help_text='5XXXXXXXX')  
     email = forms.CharField(max_length=100, required=False, help_text='Email')
     adress = forms.CharField(max_length=250, required=True, help_text='Adress')
     
     class Meta:
-        model = Profile
+        model = get_user_model()
         fields = ('username', 'phone_number', 'email', 'adress', 'address', 'first_name', 'last_name',)
