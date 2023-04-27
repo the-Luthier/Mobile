@@ -36,14 +36,14 @@ class PasswordResetForm(BasePasswordResetForm):
 
 
 class PasswordChangeForm(forms.Form):
-    old_password = forms.CharField(max_length=20, required=True, help_text='Old password')
+    password = forms.CharField(max_length=20, required=True, help_text='Old password')
     new_password = forms.CharField(max_length=20, required=True, help_text='New password')
     new_password2 = forms.CharField(max_length=20, required=True, help_text='New password again')
     
     
     class Meta:
         model = User
-        fields = ('old_password', 'new_password', 'new_password2')
+        fields = ('password', 'new_password1', 'new_password2')
         
         
         

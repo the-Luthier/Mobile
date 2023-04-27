@@ -49,7 +49,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')
-        user = Profile.objects.create_user(**validated_data)  
+        user = User.objects.create_user(**validated_data)  
 
         # Create a Profile instance for the user and save the phone number
         Profile.objects.create(user=user, phone_number=profile_data['phone_number'])
@@ -84,13 +84,13 @@ class PasswordSerializer(serializers.Serializer):
     new_password2 = serializers.CharField(max_length=128, write_only=True)
 
     def validate(self, attrs):
-        old_password = attrs.get('old_password')
+        password = attrs.get('password')
         new_password1 = attrs.get('new_password1')
         new_password2 = attrs.get('new_password2')
         verification_code = attrs.get('verification_code')
 
 
-        if not old_password:
+        if not password:
             raise serializers.ValidationError('Current password is required')
         if not new_password1:
             raise serializers.ValidationError('New password is required')
@@ -100,7 +100,7 @@ class PasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError('New passwords do not match')
 
         user = self.context.get('user')
-        if not authenticate(username=Profile.full_name , password=old_password):
+        if not authenticate(username=Profile.full_name , password = False):
             raise serializers.ValidationError('Current password is incorrect')
 
         try:
@@ -115,9 +115,14 @@ class PasswordSerializer(serializers.Serializer):
 
     def save(self, **kwargs):
         user = self.context.get('user')
-        password = make_password('new_password1')
-        user.set_password(password)
-        user.save()
+        if user:
+            old_password = Profile.objects.get('password')
+            if user.check_password(old_password):
+                new_password1 = PasswordChangeForm.data.get('new_password1')
+                new_password2 = PasswordChangeForm.data.get('new_password2')
+                if new_password1 == new_password2:
+                    user.set_password(new_password1)
+                    user.save()
 
         try:
             profile = Profile.objects.get(user=user)

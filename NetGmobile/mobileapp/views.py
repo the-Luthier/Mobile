@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login as django_login
 from .forms import UserCreationForm, VerifyForm, LoginForm, PasswordResetForm, UserInfoForm, PasswordChangeForm
 from .decorators import verification_required
@@ -138,9 +139,10 @@ def change_password(request):
     if request.method == 'POST':
         serializer = PasswordSerializer(data=request.POST)
         if serializer.is_valid():            
-            user = authenticate(request, username=Profile.full_name, password=serializer.validated_data.get('password1'))
+            user = authenticate(request, username=Profile.full_name, password=request.data['password1'])
             if user is not None:
-                user.set_password(serializer.validated_data.get('password1'))
+                password = request.data['password1']
+                user.set_password(password)
                 user.save()
                 login(request, user)
                 messages.success(request, 'Your password was successfully updated!')
