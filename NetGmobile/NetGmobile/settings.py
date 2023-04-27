@@ -66,7 +66,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'mobile.urls'
+ROOT_URLCONF = 'NetGmobile.urls'
 
 TEMPLATES = [
     {
@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'mobile.wsgi.application'
+WSGI_APPLICATION = 'NetGmobile.wsgi.application'
 
 
 # Database
@@ -135,8 +135,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-#AUTH_USER_MODEL = 'mobileapp.User'
 
 LOGIN_URL = '/login/'
 

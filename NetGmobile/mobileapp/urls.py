@@ -8,8 +8,7 @@ urlpatterns = [
     path('login/', views.login.as_view(template_name='login.dart')),         
     path('signup/', views.signup.as_view(name='signup.dart')),         
     path('verify_code/', views.verify_code.as_view(template_name='verify_code.dart')),      
-    path('welcome/', views.welcome.as_view(template_name='welcome.dart')),  
-       
+    path('welcome/', views.welcome.as_view(template_name='welcome.dart')),         
     path('user_profile/', views.UserDetailUpdateView.as_view(template_name='user_profile.dart')),      
     path('user_info/', views.UserDetailUpdateView.as_view(template_name='user_info.dart')),       
     path('change_password/', views.change_password.as_view(template_name='change_password.dart')),       
