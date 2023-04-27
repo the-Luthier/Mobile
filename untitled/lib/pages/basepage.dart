@@ -1,7 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
-import 'pages/drawer.dart'; // Import the MyDrawer widget from the separate file
+import 'drawer.dart'; // Import the MyDrawer widget from the separate file
 
 class BasePage extends StatelessWidget {
   final String title;
