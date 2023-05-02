@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'phone_verify',    
     'mobileapp.apps.MobileappConfig',
-    
+    'twilio',
 ]
 
 MIDDLEWARE = [
