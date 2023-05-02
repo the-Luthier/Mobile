@@ -4,7 +4,7 @@ import unittest
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from NetGmobile.mobileapp.forms import SignUpForm, LoginForm, VerifyForm, PasswordResetForm, PasswordChangeForm, UserInfoForm
-
+from NetGmobile.mobileapp.models import Profile
 class FormsTestCase(TestCase):
 
     def setUp(self):
@@ -29,7 +29,7 @@ class FormsTestCase(TestCase):
         user.set_password(form.cleaned_data['password1'])
         user.save()
         self.assertEqual(user, 'testuser')
-        self.assertEqual(user.phone_number, '5555555555')
+        self.assertEqual(Profile.phone_number, '5555555555')
         self.assertTrue(user.check_password('testpassword'))
 
 

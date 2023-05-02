@@ -20,7 +20,7 @@ urlpatterns = [
     path('api/faq/', views.faq, name='faq'),
     path('api/contact/', views.contact_us, name='contact_us'),
     path('api/packages/', views.packages, name='packages'),
-    path('api/repairement/', views.development, name='repairement'),
+    path('api/development/', views.development, name='development'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
 ]
 

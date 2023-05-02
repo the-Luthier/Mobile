@@ -3,13 +3,13 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login as django_login
-from .forms import SignUpForm, VerifyForm, LoginForm, PasswordResetForm, UserInfoForm, PasswordChangeForm
-from .decorators import verification_required
+from mobileapp.forms import SignUpForm, VerifyForm, LoginForm, PasswordResetForm, UserInfoForm, PasswordChangeForm
+from mobileapp.decorators import verification_required
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import UserSerializer, ProfileSerializer, FileErrorSerializer, NotificationsSerializer, SubscriptionsSerializer, PasswordSerializer
+from mobileapp.serializers import UserSerializer, ProfileSerializer, FileErrorSerializer, NotificationsSerializer, SubscriptionsSerializer, PasswordSerializer
 from . import verify
 from .models import User, FileError, Notifications, Subscriptions, Profile
 
@@ -18,7 +18,8 @@ from .models import User, FileError, Notifications, Subscriptions, Profile
 # Create your views here.
 
 @api_view(['POST'])
-def login(request):      
+def login(request):  
+    form = LoginForm(request.POST)    
     if request.method == 'POST':
         username = request.data.get('username')
         password = request.data.get('password')
@@ -93,7 +94,7 @@ def forgot_password(request):
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
         if form.is_valid():
-          if User is not None:
+          if Profile is not None:
             form.save()
             verify.send(form.cleaned_data.get('phone'))
             return redirect('new_password')
@@ -106,7 +107,7 @@ def forgot_password(request):
 @verification_required
 def new_password(request):       
     if request.method == 'POST':
-          if User is not None:
+          if Profile is not None:
             return redirect('login')
     else :
       return render(request, 'new_password.dart')
