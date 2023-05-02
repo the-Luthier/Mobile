@@ -21,6 +21,7 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Copy the rest of the application code
 COPY . /app/
+COPY .env /app/
 
 # Expose the port the app runs on
 EXPOSE 8000
