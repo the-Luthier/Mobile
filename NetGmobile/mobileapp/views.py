@@ -14,7 +14,6 @@ from . import verify
 from .models import User, FileError, Notifications, Subscriptions, Profile
 
 
-
 # Create your views here.
 
 @api_view(['POST'])
