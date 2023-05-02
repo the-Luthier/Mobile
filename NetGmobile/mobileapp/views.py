@@ -20,16 +20,16 @@ from .models import User, FileError, Notifications, Subscriptions, Profile
 def login(request):  
     form = LoginForm(request.POST)    
     if request.method == 'POST':
-        username = request.data.get('username')
+        username = Profile.objects.get('username')
         password = request.data.get('password')
-        phone_number = request.data.get('phone_number')
+        phone_number = Profile.objects.get('phone_number')
         
         if not (username and password and phone_number):
             return Response({'error': 'Missing required fields'}, status=status.HTTP_400_BAD_REQUEST)
         
         user = authenticate(request, username=username, password=password)
         
-        if user is not None:
+        if Profile is not None:
             verify.send(phone_number)
             # Store user ID in the session or use a token-based authentication system (e.g., JWT)
             request.session['user_id'] = Profile.id
@@ -68,8 +68,8 @@ def verify_code(request):
         form = VerifyForm(request.POST)
         if form.is_valid():
             code = form.cleaned_data.get('code')
-            if verify.check(request.user.phone, code):
-                request.user.is_verified = True
+            if verify.check(Profile.phone_number, code):
+                Profile.is_verified = True
                 request.user.save()
                 return redirect('index')
     else:
@@ -80,7 +80,7 @@ def verify_code(request):
 @api_view(['GET'])
 @login_required
 def welcome(request):  
-  if User is not None:
+  if Profile is not None:
     return redirect('user_info_update')
   else:
     return redirect('signup')
@@ -190,12 +190,13 @@ class SubscriptionsListCreateView(generics.ListCreateAPIView):
 
 
   
-
+@api_view
 def services(request):  
   return render(request, 'services.dart')
   
   
   
+
 @login_required
 def special(request):    
     return render(request, 'special.dart')
@@ -211,8 +212,8 @@ def support(request):
   return render(request, 'support.dart')   
 
 
-@login_required
-def faq(request):  
+@api_view
+def faq(request):    
   return render(request, 'faq.dart')
 
 
