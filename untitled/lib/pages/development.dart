@@ -25,7 +25,7 @@ class DevelopmentPage extends StatelessWidget {
             child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/development.png'),
+                  image: AssetImage('assets/development.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -47,7 +47,6 @@ class DevelopmentPage extends StatelessWidget {
                     onPressed: () {
                       // Add your redirect functionality here
                     },
-
                   ),
                 ],
               ),

@@ -28,7 +28,7 @@ class MyPopupPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'Title',
+                    'Bize Ulaşın',
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -48,7 +48,7 @@ class MyPopupPage extends StatelessWidget {
                 width: double.infinity,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/my_image.png'),
+                    image: AssetImage('assets/popup.png'),
                     fit: BoxFit.cover,
                   ),
                 ),

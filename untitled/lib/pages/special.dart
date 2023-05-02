@@ -14,7 +14,7 @@ class SpecialPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Profile'),
+        title: const Text('Bana Özel'),
       ),
       body: Column(
         children: [
