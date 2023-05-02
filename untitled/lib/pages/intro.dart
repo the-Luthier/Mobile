@@ -51,7 +51,7 @@ class _IntroPageState extends State<IntroPage>
             FadeTransition(
               opacity: _animation,
               child: Image.asset(
-                'assets/images/your_logo.png',
+                'assets/logo.png',
                 width: 200,
                 height: 200,
               ),
