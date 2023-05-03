@@ -5,6 +5,8 @@ FROM python:3.11.3
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DJANGO_SETTINGS_MODULE NetGmobile.settings
+COPY .env ./
+
 
 # Create and set the working directory
 RUN mkdir /app
