@@ -77,6 +77,61 @@ class UserSerializer(serializers.ModelSerializer):
         return data
 
 
+class SignupSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
+    email = serializers.CharField(required=True)
+    phone_number = serializers.CharField(required=True)
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+    address = serializers.CharField(required=True)
+    verification_code = serializers.CharField(required=True)
+
+    def validate(self, data):
+        username = data.get('username', None)
+        password = data.get('password', None)
+        password2 = data.get('password2', None)        
+        phone_number = data.get('phone_number', None)
+        first_name = data.get('first_name', None)
+        last_name = data.get('last_name', None)        
+        verification_code = data.get('verification_code', None)
+
+        if not username:
+            raise serializers.ValidationError('Username is required')
+        if not password:
+            raise serializers.ValidationError('Password is required')
+        if password != password2:
+            raise serializers.ValidationError('Passwords do not match')
+        if not phone_number:
+            raise serializers.ValidationError('Phone number is required')
+        if not first_name:
+            raise serializers.ValidationError('First name is required')
+        if not last_name:
+            raise serializers.ValidationError('Last name is required')        
+        if not verification_code:
+            raise serializers.ValidationError('Verification code is required')
+
+        # Check if the verification code is correct
+        profile = Profile.objects.get(phone_number=phone_number)
+        if profile.verification_code != verification_code:
+            raise serializers.ValidationError('Incorrect verification code')
+
+        return data
+
+    def create(self, validated_data):
+        username = validated_data['username']
+        password = validated_data['password']
+        email = validated_data['email']
+        phone_number = validated_data['phone_number']
+        first_name = validated_data['first_name']
+        last_name = validated_data['last_name']
+        address = validated_data['address']
+
+        user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name, last_name=last_name, address=address)
+        profile = Profile.objects.create(user=user, phone_number=phone_number)
+
+        return user
+
 
 class PasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(max_length=128, write_only=True)
@@ -132,6 +187,29 @@ class PasswordSerializer(serializers.Serializer):
         profile.verification_code = get_random_string(length=6)
         profile.save()
 
+
+class ForgotPasswordSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(required=True)
+    form = PasswordResetForm
+
+    def validate(self, data):
+        phone_number = data.get('phone_number', None)
+
+        if not phone_number:
+            raise serializers.ValidationError('Phone number is required')
+
+        try:
+            profile = Profile.objects.get(phone_number=phone_number)
+        except Profile.DoesNotExist:
+            raise serializers.ValidationError('Profile not found')
+
+        return data
+
+    def save(self, **kwargs):
+        phone_number = self.phone_number
+        profile = Profile.objects.get(phone_number=phone_number)
+        profile.verification_code = get_random_string(length=6)
+        profile.save()
         
         
 

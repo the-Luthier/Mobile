@@ -8,8 +8,8 @@ from mobileapp.decorators import verification_required
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from mobileapp.serializers import UserSerializer, ProfileSerializer, FileErrorSerializer, NotificationsSerializer, SubscriptionsSerializer, PasswordSerializer
+from rest_framework.decorators import api_view, permission_classes
+from mobileapp.serializers import ForgotPasswordSerializer, SignupSerializer, UserSerializer, ProfileSerializer, FileErrorSerializer, NotificationsSerializer, SubscriptionsSerializer, PasswordSerializer
 from . import verify
 from .models import User, FileError, Notifications, Subscriptions, Profile
 
@@ -44,18 +44,24 @@ def login(request):
 @api_view(['GET'])
 @login_required
 @verification_required
-def index(request):  
-  return render(request, 'homepage')
+@permission_classes([IsAuthenticated])
+def index(request): 
+  if Profile is not None:
+    return render(request, 'homepage')
+  if Profile.is_authenticated and Profile.is_verified:
+    return render(request, 'homepage')
+  else:
+    return render(request, 'login')
 
 
 @api_view(['POST'])
 def signup(request):       
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-          if User is not None:
-            form.save()
-            verify.send(form.cleaned_data.get('phone_number'))
+        serializer = SignupSerializer(request.POST)
+        if serializer.is_valid():
+          if Profile is not None:
+            serializer.save()
+            verify.send(serializer.phone_number)
             return redirect('verify_code')
     else :
      return render(request, 'signup.dart')
@@ -78,7 +84,7 @@ def verify_code(request):
 
 
 @api_view(['GET'])
-@login_required
+@permission_classes([IsAuthenticated])
 def welcome(request):  
   if Profile is not None:
     return redirect('user_info_update')
@@ -91,11 +97,11 @@ def welcome(request):
 @verification_required
 def forgot_password(request):       
     if request.method == 'POST':
-        form = PasswordResetForm(request.POST)
-        if form.is_valid():
+        serializer = ForgotPasswordSerializer(request.POST)
+        if serializer.is_valid():
           if Profile is not None:
-            form.save()
-            verify.send(form.cleaned_data.get('phone'))
+            serializer.save()
+            verify.send(serializer.phone_number)
             return redirect('new_password')
     else :
       return render(request, 'forgot_password')
@@ -157,6 +163,7 @@ def change_password(request):
     return render(request, 'change_password', {'serializer': serializer})
 
 
+@permission_classes([IsAuthenticated])
 class FileErrorListCreateView(generics.ListCreateAPIView):
     serializer_class = FileErrorSerializer
 
@@ -168,7 +175,7 @@ class FileErrorListCreateView(generics.ListCreateAPIView):
 
 
 
-
+@permission_classes([IsAuthenticated])  
 class NotificationsListCreateView(generics.ListCreateAPIView):
     serializer_class = NotificationsSerializer
 
@@ -179,6 +186,7 @@ class NotificationsListCreateView(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)    
 
 
+@permission_classes([IsAuthenticated])
 class SubscriptionsListCreateView(generics.ListCreateAPIView):
     serializer_class = SubscriptionsSerializer
 
@@ -190,21 +198,24 @@ class SubscriptionsListCreateView(generics.ListCreateAPIView):
 
 
   
-@api_view
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def services(request):  
-  return render(request, 'services.dart')
+  return redirect(request, 'services')
   
   
   
 
-@login_required
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def special(request):    
-    return render(request, 'special.dart')
+    return redirect(request, 'special')
+
   
-  
+@api_view(['GET'])  
 @login_required
 def packages(request):    
-    return render(request, 'packages.dart')
+    return redirect(request, 'packages')
   
   
 @login_required 
@@ -212,7 +223,7 @@ def support(request):
   return render(request, 'support.dart')   
 
 
-@api_view
+@api_view(['GET'])
 def faq(request):    
   return render(request, 'faq.dart')
 
