@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, get_user_model
 from django.utils.crypto import get_random_string
 from twilio.rest import Client
-from .models import Profile, FileError, Notifications, Subscriptions
-from .forms import PasswordChangeForm, UserInfoForm, PasswordResetForm, LoginForm, VerifyForm
+from mobileapp.models import Profile, FileError, Notifications, Subscriptions
+from mobileapp.forms import PasswordChangeForm, UserInfoForm, PasswordResetForm, LoginForm, VerifyForm
 from django.contrib.auth.hashers import make_password
 
 
