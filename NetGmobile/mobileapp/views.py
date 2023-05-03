@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from mobileapp.serializers import ForgotPasswordSerializer, SignupSerializer, UserSerializer, ProfileSerializer, FileErrorSerializer, NotificationsSerializer, SubscriptionsSerializer, PasswordSerializer
 from . import verify
-from .models import User, FileError, Notifications, Subscriptions, Profile
+from mobileapp.models import User, FileError, Notifications, Subscriptions, Profile
 
 
 # Create your views here.
