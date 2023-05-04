@@ -1,7 +1,7 @@
 import unittest
 from django.test import TestCase
 from django.contrib.auth.models import User
-from NetGmobile.mobileapp.models import Profile, FileError, Notifications, Subscriptions
+from mobileapp.models import Profile, FileError, Notifications, Subscriptions
 
 
 class ProfileModelTest(TestCase):
