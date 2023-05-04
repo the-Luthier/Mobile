@@ -3,8 +3,8 @@ import sys
 import unittest
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from NetGmobile.mobileapp.forms import SignUpForm, LoginForm, VerifyForm, PasswordResetForm, PasswordChangeForm, UserInfoForm
-from NetGmobile.mobileapp.models import Profile
+from mobileapp.forms import SignUpForm, LoginForm, VerifyForm, PasswordResetForm, PasswordChangeForm, UserInfoForm
+from mobileapp.models import Profile
 class FormsTestCase(TestCase):
 
     def setUp(self):
