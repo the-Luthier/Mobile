@@ -2,12 +2,8 @@ from django.contrib.auth.decorators import user_passes_test
 from functools import wraps
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist
-from mobileapp.models import Profile 
+from .models import Profile 
 
-
-from django.shortcuts import redirect
-from functools import wraps
-from .models import Profile
 
 def verification_required(view_func):
     @wraps(view_func)
