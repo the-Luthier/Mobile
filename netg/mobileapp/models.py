@@ -56,3 +56,8 @@ class Subscriptions(models.Model):
 
     def __str__(self):
         return self.MultipleObjectsReturned('title', 'description', 'created_at', 'user',)
+    
+
+class Device(models.Model):
+    user = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    device_token = models.CharField(max_length=255, unique=True)
