@@ -4,15 +4,16 @@ FROM python:3.11.3
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV PYTHONPATH="/app:$PYTHONPATH"
-
-ENV DJANGO_SETTINGS_MODULE NetGmobile.settings
-COPY .env ./
-
 
 # Create and set the working directory
 RUN mkdir /app
 WORKDIR /app
+
+# Set Django settings module environment variable
+ENV DJANGO_SETTINGS_MODULE NetGmobile.settings
+
+# Copy the .env file
+COPY .env /app/
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -26,7 +27,6 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Copy the rest of the application code
 COPY . /app/
-COPY .env /app/
 
 # Expose the port the app runs on
 EXPOSE 8000
