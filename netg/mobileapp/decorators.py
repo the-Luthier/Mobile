@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import user_passes_test
 from functools import wraps
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Profile 
+from mobileapp.models import Profile 
 
 
 from django.shortcuts import redirect
