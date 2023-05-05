@@ -21,7 +21,7 @@ RUN apt-get update && \
         python3-dev \
         libpq-dev \
     # Add the commands to update the ncurses package
-    && apt-get install -y --no-install-recommends ncurses \
+    && apt-get install -y --no-install-recommends libncurses-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install any needed packages specified in requirements.txt
