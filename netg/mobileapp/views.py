@@ -228,6 +228,7 @@ def faq(request):
   return render(request, 'faq.dart')
 
 
+@api_view(['POST'])
 @login_required
 def contact_us(request):  
   return render(request, 'contact_us.dart')
