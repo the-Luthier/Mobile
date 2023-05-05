@@ -21,17 +21,15 @@ RUN apt-get update && \
         python3-dev \
         libpq-dev \
         libncurses5-dev \
+        libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Update ncurses package
-RUN apt-get update && \
-    apt-get upgrade -y ncurses-base ncurses-bin libncurses6 libncursesw6 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Upgrade pip to the latest version
+RUN pip install --no-cache-dir --trusted-host pypi.python.org --upgrade pip
 
 # Install any needed packages specified in requirements.txt
 COPY requirements.txt /app/
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
+RUN pip install --no-cache-dir --trusted-host pypi.python.org -r requirements.txt
 
 # Copy the rest of the application code
 COPY . /app/
