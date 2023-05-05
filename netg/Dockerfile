@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11.3-alpine
+FROM python:3.11.3-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -16,13 +16,11 @@ ENV DJANGO_SETTINGS_MODULE NetGmobile.settings
 COPY .env /app/
 
 # Install system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+RUN apk update && \
+    apk add --no-cache \
         python3-dev \
-        libpq-dev \
-    # Add the commands to update the ncurses package
-    && apt-get install -y --no-install-recommends libncurses-dev \
-    && rm -rf /var/lib/apt/lists/*
+        postgresql-dev \
+        ncurses-dev
 
 # Install any needed packages specified in requirements.txt
 COPY requirements.txt /app/
