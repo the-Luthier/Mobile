@@ -15,7 +15,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm as BasePasswordResetForm
 from mobileapp.models import Profile
 from django.contrib.auth import authenticate, get_user_model
-from django.contrib.auth.models import AbstractUser
+
 
 
 
