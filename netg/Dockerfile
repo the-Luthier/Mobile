@@ -1,5 +1,6 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11.3-slim
+# Use an official Python runtime as a parent image
+FROM python:3.11-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -16,11 +17,12 @@ ENV DJANGO_SETTINGS_MODULE NetGmobile.settings
 COPY .env /app/
 
 # Install system dependencies
-RUN apk update && \
-    apk add --no-cache \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
         python3-dev \
-        postgresql-dev \
-        ncurses-dev
+        libpq-dev \
+        libncurses5-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install any needed packages specified in requirements.txt
 COPY requirements.txt /app/
