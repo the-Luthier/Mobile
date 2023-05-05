@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Profile
-from .models import Device
+from django.contrib.admin.sites import NotRegistered
+from .models import Profile, Device
 from .utils import send_push_notifications
 
 def send_notifications(modeladmin, request, queryset):
@@ -17,5 +17,11 @@ send_notifications.short_description = "Send notifications to selected profiles"
 class CustomProfileAdmin(admin.ModelAdmin):
     actions = [send_notifications]
 
-admin.site.unregister(Profile)
+# Unregister the Profile model if it's already registered
+try:
+    admin.site.unregister(Profile)
+except NotRegistered:
+    pass
+
+# Register the Profile model with the custom admin class
 admin.site.register(Profile, CustomProfileAdmin)
