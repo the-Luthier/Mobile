@@ -23,6 +23,12 @@ RUN apt-get update && \
         libncurses5-dev \
     && rm -rf /var/lib/apt/lists/*
 
+# Update ncurses package
+RUN apt-get update && \
+    apt-get upgrade -y ncurses-base ncurses-bin libncurses6 libncursesw6 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install any needed packages specified in requirements.txt
 COPY requirements.txt /app/
 RUN pip install --trusted-host pypi.python.org -r requirements.txt

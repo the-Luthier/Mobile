@@ -150,7 +150,7 @@ def change_password(request):
                 password = request.data['password1']
                 user.set_password(password)
                 user.save()
-                login(request, user)
+                login(request)
                 messages.success(request, 'Your password was successfully updated!')
                 
             else:
