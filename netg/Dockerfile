@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11-slim
+FROM python:3.11.3-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -29,7 +29,7 @@ RUN pip install --no-cache-dir --trusted-host pypi.python.org --upgrade pip
 
 # Install any needed packages specified in requirements.txt
 COPY requirements.txt /app/
-RUN pip install --no-cache-dir --trusted-host pypi.python.org -r requirements.txt
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Copy the rest of the application code
 COPY . /app/
