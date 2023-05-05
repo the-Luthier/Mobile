@@ -218,7 +218,7 @@ def packages(request):
     return redirect(request, 'packages')
   
   
-@login_required 
+@api_view(['GET'])
 def support(request):  
   return render(request, 'support.dart')   
 
@@ -233,7 +233,7 @@ def contact_us(request):
   return render(request, 'contact_us.dart')
 
 
-@login_required
+@api_view(['GET'])
 def development(request):  
   return render(request, 'development.dart')
 
