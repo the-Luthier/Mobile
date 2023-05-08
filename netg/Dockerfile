@@ -18,10 +18,7 @@ COPY .env /app/
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         python3-dev \
-        libpq-dev \
-        libncurses-dev \
-        libncurses6 \
-        libncursesw6 \
+        libpq-dev \        
         libffi-dev \
         wget \
         build-essential \
@@ -33,12 +30,12 @@ RUN set -e; set -x; \
     wget https://invisible-mirror.net/archives/ncurses/current/ncurses-6.4-20230408.tgz && \
     tar -xzf ncurses-6.4-20230408.tgz && \
     ls -la && \
-    cd ncurses-6.4 && \
+    cd ncurses-6.4-20230408 && \
     ./configure --prefix=/usr/local && \
     make && \
     make install && \
     cd .. && \
-    rm -rf ncurses-6.4 ncurses-6.4-20230408.tgz
+    rm -rf ncurses-6.4-20230408 ncurses-6.4-20230408.tgz
 
 # Upgrade pip to the latest version
 RUN pip install --no-cache-dir --trusted-host pypi.python.org --upgrade pip
