@@ -1,5 +1,4 @@
 # Use an official Python runtime as a parent image
-FROM debian:unstable-slim
 FROM python:3.11.3-slim
 
 # Set environment variables
@@ -22,7 +21,9 @@ RUN apt-get update && \
         python3-dev \
         libpq-dev \
         libncurses5-dev \
-        libffi-dev \
+        libncurses6\
+        libffi-dev \  
+    && apt-get clean \    
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip to the latest version
