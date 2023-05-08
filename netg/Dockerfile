@@ -22,6 +22,7 @@ RUN apt-get update && \
         libpq-dev \  
         libncurses-dev \
         libncurses6 \
+        libncursesw6 \
         libffi-dev \  
     && apt-get clean \    
     && rm -rf /var/lib/apt/lists/*
