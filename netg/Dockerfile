@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.11.3-slim
+FROM python:3-slim
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -19,9 +19,7 @@ COPY .env /app/
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         python3-dev \
-        libpq-dev \
-        libncurses5-dev \
-        libncurses6\
+        libpq-dev \      
         libffi-dev \  
     && apt-get clean \    
     && rm -rf /var/lib/apt/lists/*
