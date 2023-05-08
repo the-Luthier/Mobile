@@ -32,6 +32,7 @@ RUN apt-get update && \
 RUN set -e; set -x; \
     wget https://invisible-mirror.net/archives/ncurses/current/ncurses-6.4-20230408.tgz && \
     tar -xzf ncurses-6.4-20230408.tgz && \
+    ls -la && \
     cd ncurses-6.4 && \
     ./configure --prefix=/usr/local && \
     make && \
