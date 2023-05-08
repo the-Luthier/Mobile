@@ -43,6 +43,12 @@ RUN pip install --no-cache-dir --trusted-host pypi.python.org --upgrade pip
 COPY requirements.txt /app/
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
+# Remove build-essential and other unnecessary packages
+RUN apt-get remove -y build-essential wget && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy the rest of the application code
 COPY . /app/
 
