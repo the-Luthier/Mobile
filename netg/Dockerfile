@@ -9,15 +9,15 @@ RUN mkdir /app
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y --no-install-recommends \
-        python3-dev \
-        libpq-dev \
-        libffi-dev \
-        wget \
-        build-essential \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update 
+RUN apt-get upgrade -y 
+RUN apt-get install -y -qq  --no-install-recommends \
+    libpq-dev \
+    libffi-dev \
+    wget \
+    build-essential 
+RUN apt-get clean 
+RUN rm -rf /var/lib/apt/lists/*
 
 # Download and install ncurses 6.4 from source
 RUN set -e; set -x; \
@@ -37,7 +37,7 @@ ENV DJANGO_SETTINGS_MODULE NetGmobile.settings
 COPY .env /app/
 
 # Upgrade pip to the latest version
-RUN pip install --no-cache-dir --trusted-host pypi.python.org --upgrade pip
+RUN pip install --trusted-host pypi.python.org --upgrade pip -v
 
 # Install any needed packages specified in requirements.txt
 COPY requirements.txt /app/
