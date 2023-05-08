@@ -36,7 +36,7 @@ RUN wget https://invisible-island.net/archives/ncurses/6.4/ncurses-6.4-20230423.
     make && \
     make install && \
     cd .. && \
-    rm -rf ncurses-6.4 ncurses-6.4.tar.gz
+    rm -rf ncurses-6.4 ncurses-6.4.patch.gz
 
 # Upgrade pip to the latest version
 RUN pip install --no-cache-dir --trusted-host pypi.python.org --upgrade pip
