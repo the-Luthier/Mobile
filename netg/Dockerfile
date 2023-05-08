@@ -1,4 +1,4 @@
-FROM python:3.11.3-slim
+FROM python:3.11.3-slim-bullseye
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -9,7 +9,7 @@ RUN mkdir /app
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && \
+RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
         python3-dev \
         libpq-dev \
