@@ -29,7 +29,8 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and install ncurses 6.4 from source
-RUN wget https://invisible-mirror.net/archives/ncurses/current/ncurses-6.4-20230408.tgz && \
+RUN set -e; set -x; \
+    wget https://invisible-mirror.net/archives/ncurses/current/ncurses-6.4-20230408.tgz && \
     tar -xzf ncurses-6.4-20230408.tgz && \
     cd ncurses-6.4 && \
     ./configure --prefix=/usr/local && \
