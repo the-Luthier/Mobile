@@ -1,4 +1,3 @@
-# Use an official Python runtime as a parent image
 FROM python:3.11.3-slim
 
 # Set environment variables
@@ -19,13 +18,25 @@ COPY .env /app/
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         python3-dev \
-        libpq-dev \  
+        libpq-dev \
         libncurses-dev \
         libncurses6 \
         libncursesw6 \
-        libffi-dev \  
-    && apt-get clean \    
+        libffi-dev \
+        wget \
+        build-essential \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Download and install ncurses 6.4 from source
+RUN wget https://invisible-mirror.net/archives/ncurses/ncurses-6.4.tar.gz && \
+    tar -xzf ncurses-6.4.tar.gz && \
+    cd ncurses-6.4 && \
+    ./configure --prefix=/usr/local && \
+    make && \
+    make install && \
+    cd .. && \
+    rm -rf ncurses-6.4 ncurses-6.4.tar.gz
 
 # Upgrade pip to the latest version
 RUN pip install --no-cache-dir --trusted-host pypi.python.org --upgrade pip
