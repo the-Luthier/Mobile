@@ -29,14 +29,14 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and install ncurses 6.4 from source
-RUN wget https://invisible-island.net/archives/ncurses/6.4/ncurses-6.4-20230423.patch.gz && \
-    tar -xzf ncurses-6.4.patch.gz && \
+RUN wget https://invisible-mirror.net/archives/ncurses/current/ncurses-6.4-20230408.tgz && \
+    tar -xzf ncurses-6.4-20230408.tgz && \
     cd ncurses-6.4 && \
     ./configure --prefix=/usr/local && \
     make && \
     make install && \
     cd .. && \
-    rm -rf ncurses-6.4 ncurses-6.4.patch.gz
+    rm -rf ncurses-6.4 ncurses-6.4-20230408.tgz
 
 # Upgrade pip to the latest version
 RUN pip install --no-cache-dir --trusted-host pypi.python.org --upgrade pip
