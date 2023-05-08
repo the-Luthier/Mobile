@@ -8,17 +8,11 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /app
 WORKDIR /app
 
-# Set Django settings module environment variable
-ENV DJANGO_SETTINGS_MODULE NetGmobile.settings
-
-# Copy the .env file
-COPY .env /app/
-
 # Install system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         python3-dev \
-        libpq-dev \        
+        libpq-dev \
         libffi-dev \
         wget \
         build-essential \
@@ -29,13 +23,18 @@ RUN apt-get update && \
 RUN set -e; set -x; \
     wget https://invisible-mirror.net/archives/ncurses/current/ncurses-6.4-20230408.tgz && \
     tar -xzf ncurses-6.4-20230408.tgz && \
-    ls -la && \
     cd ncurses-6.4-20230408 && \
     ./configure --prefix=/usr/local && \
     make && \
     make install && \
     cd .. && \
     rm -rf ncurses-6.4-20230408 ncurses-6.4-20230408.tgz
+
+# Set Django settings module environment variable
+ENV DJANGO_SETTINGS_MODULE NetGmobile.settings
+
+# Copy the .env file
+COPY .env /app/
 
 # Upgrade pip to the latest version
 RUN pip install --no-cache-dir --trusted-host pypi.python.org --upgrade pip
