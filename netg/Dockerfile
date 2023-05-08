@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM debian:stable-slim
+FROM debian:12.0-slim
 FROM python:3.11.3-slim
 
 # Set environment variables
