@@ -11,7 +11,7 @@ WORKDIR /app
 # Install system dependencies
 RUN apt-get update 
 RUN apt-get upgrade -y 
-RUN apt-get install -y -qq  --no-install-recommends \
+RUN apt-get install -y -qq --no-install-recommends \
     libpq-dev \
     libffi-dev \
     wget \
