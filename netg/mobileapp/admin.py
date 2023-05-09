@@ -1,7 +1,14 @@
 from django.contrib import admin
 from django.contrib.admin.sites import NotRegistered
-from .models import Profile, Device
+from .models import Profile, Device, FileError, Notifications, Subscriptions
 from .utils import send_push_notifications
+
+admin.site.register(Profile)
+admin.site.register(Device)
+admin.site.register(FileError)
+admin.site.register(Notifications)
+admin.site.register(Subscriptions)
+
 
 def send_notifications(modeladmin, request, queryset):
     profile_ids = queryset.values_list('id', flat=True)
