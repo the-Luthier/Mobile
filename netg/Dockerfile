@@ -1,4 +1,4 @@
-FROM python:3.11.3-slim-bullseye
+FROM python:3.11.3-alpine3.17
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -8,16 +8,13 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /app
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update 
-RUN apt-get upgrade -y 
-RUN apt-get install -y -qq --no-install-recommends \
-    libpq-dev \
+# Install system dependencies and build tools
+RUN apk update && apk upgrade
+RUN apk add --no-cache \
+    postgresql-dev \
     libffi-dev \
     wget \
-    build-essential 
-RUN apt-get clean 
-RUN rm -rf /var/lib/apt/lists/*
+    build-base
 
 # Download and install ncurses 6.4 from source
 RUN set -e; set -x; \
@@ -43,11 +40,8 @@ RUN pip install --trusted-host pypi.python.org --upgrade pip -v
 COPY requirements.txt /app/
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-# Remove build-essential and other unnecessary packages
-RUN apt-get remove -y build-essential wget && \
-    apt-get autoremove -y && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Remove build-base and other unnecessary packages
+RUN apk del build-base wget
 
 # Copy the rest of the application code
 COPY . /app/
