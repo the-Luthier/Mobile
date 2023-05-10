@@ -27,3 +27,6 @@ spec:
         - containerPort: 8000
         securityContext:
           runAsNonRoot: true
+          capabilities:
+            drop:
+            - ALL
