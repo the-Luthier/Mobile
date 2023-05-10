@@ -26,6 +26,7 @@ spec:
         ports:
         - containerPort: 8000
         securityContext:
+          readOnlyRootFilesystem: true
           runAsNonRoot: true
           runAsUser: 10000
           capabilities:
