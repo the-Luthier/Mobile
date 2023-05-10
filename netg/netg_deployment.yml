@@ -25,3 +25,5 @@ spec:
             memory: "3Gi"
         ports:
         - containerPort: 8000
+        securityContext:
+          runAsNonRoot: true
