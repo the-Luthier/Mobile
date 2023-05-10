@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        app: my-app
+        app: mobile-app
     spec:
       containers:
       - name: netg
