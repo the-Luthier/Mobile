@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: netg
-        image: onurkaroff/netg_mobile:latest
+        image: onurkaroff/netgrepo:latest
         imagePullPolicy: Always
         resources:
           limits:
