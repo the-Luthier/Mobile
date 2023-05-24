@@ -3,15 +3,15 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login as django_login
-from mobileapp.forms import SignUpForm, VerifyForm, LoginForm, PasswordResetForm, UserInfoForm, PasswordChangeForm
-from mobileapp.decorators import verification_required
+from .forms import SignUpForm, VerifyForm, LoginForm, PasswordResetForm, UserInfoForm, PasswordChangeForm
+from .decorators import verification_required
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from mobileapp.serializers import ForgotPasswordSerializer, SignupSerializer, UserSerializer, ProfileSerializer, FileErrorSerializer, NotificationsSerializer, SubscriptionsSerializer, PasswordSerializer
+from .serializers import ForgotPasswordSerializer, SignupSerializer, UserSerializer, ProfileSerializer, FileErrorSerializer, NotificationsSerializer, SubscriptionsSerializer, PasswordSerializer
 from . import verify
-from mobileapp.models import User, FileError, Notifications, Subscriptions, Profile
+from .models import User, FileError, Notifications, Subscriptions, Profile
 
 
 # Create your views here.
