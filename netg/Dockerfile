@@ -4,6 +4,8 @@ FROM python:3.11.3-alpine3.17
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+ENV PIP_TRUSTED_HOST=pypi.python.org
+
 # Create and set the working directory
 RUN mkdir /app
 WORKDIR /app
@@ -30,11 +32,9 @@ RUN set -e; set -x; \
 # Set Django settings module environment variable
 ENV DJANGO_SETTINGS_MODULE NetGmobile.settings
 
-# Copy the .env file
-COPY .env /app/
-
 # Upgrade pip to the latest version
 RUN pip install --trusted-host pypi.python.org --upgrade pip -v
+RUN pip install --trusted-host pypi.python.org --upgrade pip setuptools -v
 
 # Install any needed packages specified in requirements.txt
 COPY requirements.txt /app/
