@@ -8,6 +8,9 @@ from django.dispatch import receiver
 
 class User(AbstractUser):
 
+    id = models.AutoField(primary_key=True)
+    phone_number = models.CharField(max_length=15, blank=False)
+
     REQUIRED_FIELDS = ['phone_number', 'full_name', 'adress', 'verification_code', 'is_verified', 'date_of_birth',]
 
 
