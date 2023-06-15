@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin.sites import NotRegistered
-from models import Profile, Device, FileError, Notifications, Subscriptions
+from .models import Profile, Device, FileError, Notifications, Subscriptions
 from utils import send_push_notifications
 
 admin.site.register(Profile)
